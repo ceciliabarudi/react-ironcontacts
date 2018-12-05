@@ -1,6 +1,7 @@
 'Use strict';
-import contacts from '../../src/contacts.json';
+import contacts from '../data/contacts.json';
 import React, { Component } from 'react';
+import ContactList from '../components/ContactList'
 import './Contact.css';
 
 class Contacts extends Component {
@@ -38,26 +39,28 @@ class Contacts extends Component {
     //do the meaty stuff before you call setState pls thx
     const stateContacts = this.state.contacts
     stateContacts.sort((thisContact, nextContact) => {
-      if (thisContact.popularity < nextContact.popularity) { return 1 }
-      if (thisContact.popularity > nextContact.popularity) { return -1 }
-      return 0
+      return nextContact.popularity - thisContact.popularity
     })
     this.setState({
       stateContacts
     })
   }
 
-  removeContact = (event) => {
-    const index = event.target.attributes.id.nodeValue; //this is a 'unique' value for the event that's just been clicked on
+  deleteContact = (index) => {
+    /*const index = event.target.attributes.id.nodeValue;
+    this is a 'unique' value for the event that's just been
+    clicked on baaack in the child component */
     const stateContacts = this.state.contacts
     stateContacts.splice(index, 1)
     //do the meaty stuff before you call setState pls thx
     this.setState({
-       stateContacts
+      stateContacts
     })
   }
 
   render() {
+    const { contacts } = this.state; //object destructuring
+    // the same as const { contacts } = this.state.contacts;
     return (
       <div> {/*parent element*/}
         <button className="button" onClick={this.handleRandom}>Add random contact</button>
@@ -66,16 +69,7 @@ class Contacts extends Component {
         <h2>Picture</h2>
         <h2>Name</h2>
         <h2>Popularity</h2>
-        {this.state.contacts.map((contact, index) => {
-          return (
-            <div className="contact-card" key={index}>
-              <img src={contact.pictureUrl} alt={contact.name} />
-              <p>{contact.name}</p>
-              <p>{contact.popularity}</p>
-              <button className="button" onClick={this.removeContact} id={index}>Delete</button>
-            </div>
-          )
-        })}
+        <ContactList contacts={contacts} onDelete={this.deleteContact} />
       </div>
     )
   }
