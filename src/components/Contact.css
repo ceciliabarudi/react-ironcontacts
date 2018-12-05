@@ -1,0 +1,18 @@
+div.contact-card {
+  margin: 0 10rem;
+}
+
+div.contact-card p {
+  display: inline;
+  padding: 0 3rem;
+  text-align: right;
+}
+
+h2 {
+  display: inline-block;
+  margin: 1rem 2rem;
+}
+
+img {
+  width: 4rem;
+}
